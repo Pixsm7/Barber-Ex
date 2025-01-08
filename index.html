@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .images img {
+            width: calc(33% - 1rem);
+            border-radius: 8px;
+        }
+        .pricing, .location {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Barber Showcase</h1>
+        <p>Exceptional Cuts, Exceptional Style</p>
+    </header>
+
+    <div class="container">
+        <!-- About Section -->
+        <div class="section">
+            <h2>About</h2>
+            <p>Welcome to [Barber's Name]! We specialize in premium haircuts and styles tailored to perfection. Explore our work and see why clients trust us for their signature look.</p>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class="section">
+            <h2>Gallery</h2>
+            <div class="images">
+                <!-- Add your images here -->
+                <img src="cut1.jpg" alt="Barber Cut 1">
+                <img src="cut2.jpg" alt="Barber Cut 2">
+                <img src="cut3.jpg" alt="Barber Cut 3">
+            </div>
+        </div>
+
+        <!-- Pricing Section -->
+        <div class="section pricing">
+            <h2>Pricing</h2>
+            <ul>
+                <li>Men's Haircut: $30</li>
+                <li>Beard Trim: $15</li>
+                <li>Haircut + Beard: $40</li>
+                <li>Kids Haircut: $20</li>
+            </ul>
+        </div>
+
+        <!-- Location Section -->
+        <div class="section location">
+            <h2>Location</h2>
+            <p>123 Barber Lane, Your City, State, ZIP</p>
+            <p>Open: Monday - Saturday, 9 AM - 7 PM</p>
+            <p>Contact: (123) 456-7890</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Barber Showcase. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
