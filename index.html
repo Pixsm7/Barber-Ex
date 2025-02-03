@@ -3,99 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barber Showcase</title>
+    <title>@jsidhucuts</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            background-color: #f4f4f4;
         }
         header {
-            background: #333;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
+            background-color: #2a2b2f; /* Updated to match logo color */
+            color: white;
+            padding: 20px;
         }
-        .container {
-            padding: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        header img {
+            max-width: 110px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
         }
-        .section {
-            margin-bottom: 2rem;
+        section {
+            padding: 20px;
         }
-        .images {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+        .contact {
+            background-color: #ddd;
+            padding: 20px;
         }
-        .images img {
-            width: calc(33% - 1rem);
-            border-radius: 8px;
+        .pricing {
+            background-color: #ffffff;
+            padding: 20px;
         }
-        .pricing, .location {
-            background: #f4f4f4;
-            padding: 1rem;
-            border-radius: 8px;
+        .pricing ul {
+            list-style: none;
+            padding: 0;
         }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1rem 0;
-            position: relative;
-            bottom: 0;
-            width: 100%;
+        .pricing li {
+            padding: 5px 0;
         }
+        .gallery {
+            background-color: #ffffff;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 150px;
+            height: auto;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        .business-hours {
+            background-color: #ffffff;
+            padding: 5px;
+        }
+        .business-hours ul {
+            list-style: none;
+            padding: 0;
+        }
+
     </style>
 </head>
 <body>
     <header>
-        <h1>Barber Showcase</h1>
-        <p>Exceptional Cuts, Exceptional Style</p>
+        <img src="JCutz Logo.png" alt="J Cutz Logo">
+        <h1>Welcome to J Cutz</h1>
+        <p>Quality cuts at an affordable price</p>
     </header>
 
-    <div class="container">
-        <!-- About Section -->
-        <div class="section">
-            <h2>About</h2>
-            <p>Welcome to [Barber's Name]! We specialize in premium haircuts and styles tailored to perfection. Explore our work and see why clients trust us for their signature look.</p>
-        </div>
+    <section>
+        <h2>About Me</h2>
+        <p>I'm a professional barber offering personalized haircuts from my home garage. Walk-ins and appointments available.</p>
+    </section>
 
-        <!-- Gallery Section -->
-        <div class="section">
-            <h2>Gallery</h2>
-            <div class="images">
-                <!-- Add your images here -->
-                <img src="cut1.jpg" alt="Barber Cut 1">
-                <img src="cut2.jpg" alt="Barber Cut 2">
-                <img src="cut3.jpg" alt="Barber Cut 3">
-            </div>
-        </div>
+    <section class="gallery">
+        <h2>Gallery</h2>
+        <p>Check out some of my recent haircuts!</p>
+        <img src="cut1.jpg" alt="Haircut 1">
+        <img src="cut2.jpg" alt="Haircut 2">
+        <img src="cut3.jpg" alt="Haircut 3">
+    </section>
 
-        <!-- Pricing Section -->
-        <div class="section pricing">
-            <h2>Pricing</h2>
-            <ul>
-                <li>Men's Haircut: $30</li>
-                <li>Beard Trim: $15</li>
-                <li>Haircut + Beard: $40</li>
-                <li>Kids Haircut: $20</li>
-            </ul>
-        </div>
+    <section class="pricing">
+        <h2>Pricing</h2>
+        <ul>
+            <li>Haircut - $20</li>
+        </ul>
+    </section>
 
-        <!-- Location Section -->
-        <div class="section location">
-            <h2>Location</h2>
-            <p>123 Barber Lane, Your City, State, ZIP</p>
-            <p>Open: Monday - Saturday, 9 AM - 7 PM</p>
-            <p>Contact: (123) 456-7890</p>
-        </div>
-    </div>
+    <section class="business-hours">
+        <h2>Business Hours</h2>
+        <ul>
+            <li>Monday - Friday: 10 AM - 7 PM</li>
+            <li>Saturday: 9 AM - 5 PM</li>
+            <li>Sunday: Closed</li>
+        </ul>
+    </section>
 
-    <footer>
-        <p>&copy; 2025 Barber Showcase. All Rights Reserved.</p>
-    </footer>
+    <section class="contact">
+        <h2>Contact</h2>
+        <p>📍 Location: Kent, WA</p>
+        <p>📞 Call/Text: (000) 000-0000</p>
+        <p>✉️ Email: <a href="mailto:example@email.com">example@email.com</a></p>
+        <p>📅 Book an Appointment: <a href="https://www.instagram.com/jsidhucuts?igsh=MW12cnFpaHM3MDN5ag==" target="_blank">Schedule Here</a></p>
+        <p>🔗 Follow Me: 
+            <a href="https://www.instagram.com/jsidhucuts" target="_blank">Instagram</a> 
+        </p>
+    </section>
+
 </body>
 </html>
