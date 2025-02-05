@@ -82,7 +82,7 @@ header img {
 
 /* Video Size */
 video {
-    width: 50%; /* Ensures videos resize properly */
+    width: 100%; /* Ensures videos resize properly */
     height: auto;
     border-radius: 10px; /* Rounds video corners */
 }
