@@ -1,57 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> 
+<html lang="en"> 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@jsidhucuts</title>
-    <link rel="stylesheet" href="styleForWebsite.css">
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive design on mobile -->
+    <title>jsidhucutz</title>
+    <link rel="stylesheet" href="styleForWebsite.css"> <!-- Links to the external CSS file -->
 </head>
 <body>
+    <!-- Header Section -->
     <header>
-        <img src="JCutz Logo.png" alt="J Cutz Logo">
-        <h1>Welcome to J Cutz</h1>
-        <p>Quality cuts at an affordable price</p>
+        <img src="JCutz Logo.png" alt="J Cutz Logo"> <!-- Displays the logo -->
+        <h1>Welcome to JSidhu Cutz</h1> <!-- Main heading of the website -->
+        <p>Quality cuts at an affordable price</p> <!-- Tagline -->
     </header>
 
-    <section>
-        <h2>About Me</h2>
-        <p>I'm a professional barber offering personalized haircuts from my home garage. Please make an appointment with me, by heading over to my instagram and sending me a DM.</p>
+    <!-- About Me Section -->
+    <section class="about-me">
+        <h2>About Me</h2> <!-- Section heading -->
+        <div class="about-content">
+            <img src="jaivirme.jpg" alt="jaivir"> <!-- Barber's profile image -->
+            <p>I'm a professional barber offering personalized haircuts from my home garage. 
+               I specialize in modern fades, classic cuts, and detailed beard grooming. 
+               My goal is to give my clients the confidence they deserve with precision styling. 
+               Check out my work below and book your next appointment through Instagram.</p> <!-- Short bio -->
+        </div>
     </section>
 
+    <!-- Gallery Section -->
     <section class="gallery">
-        <h2>Gallery</h2>
-        <p>Check out some of my recent haircuts!</p>
-        <img src="cut1.jpg" alt="Haircut 1">
-        <img src="cut2.jpg" alt="Haircut 2">
-        <img src="cut3.jpg" alt="Haircut 3">
+        <h2>GALLERY</h2> <!-- Section heading -->
+        <p>Check out some of my recent haircuts!</p> <!-- Section description -->
+
+        <div class="gallery-container"> <!-- Container to hold all videos -->
+            <!-- Video 1 -->
+            <div class="gallery-item">
+                <video controls> <!-- Adds video controls (play, pause, volume) -->
+                    <source src="cut1.mp4" type="video/mp4"> <!-- First haircut video -->
+                </video>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="gallery-item">
+                <video controls>
+                    <source src="cut2.mp4" type="video/mp4"> <!-- Second haircut video -->
+                </video>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="gallery-item">
+                <video controls>
+                    <source src="cut3.mp4" type="video/mp4"> <!-- Third haircut video -->
+                </video>
+            </div>
+        </div>
     </section>
 
+    <!-- Pricing Section -->
     <section class="pricing">
-        <h2>Pricing</h2>
-        <ul>
-            <li>Haircut - $20</li>
+        <h2>Pricing</h2> <!-- Section heading -->
+        <ul> <!-- Unordered list for pricing -->
+            <li>Haircut - $20</li> <!-- Price for a haircut -->
+            <li>Haircut with Beard trim/lineup - $25</li> <!-- Price for haircut + beard trim -->
         </ul>
     </section>
 
+    <!-- Business Hours Section -->
     <section class="business-hours">
-        <h2>Business Hours</h2>
+        <h2>Business Hours</h2> <!-- Section heading -->
         <ul>
-            <li>Monday - Friday: 10 AM - 7 PM</li>
-            <li>Saturday: 9 AM - 5 PM</li>
-            <li>Sunday: Closed</li>
+            <li>Monday - Friday: 10 AM - 7 PM</li> <!-- Weekday hours -->
+            <li>Saturday: 9 AM - 5 PM</li> <!-- Saturday hours -->
+            <li>Sunday: Closed</li> <!-- Sunday closed -->
         </ul>
     </section>
 
+    <!-- Contact Section -->
     <section class="contact">
-        <h2>Contact</h2>
-        <p>📍 Location: Kent, WA</p>
-        <p>📞 Call/Text: (000) 000-0000</p>
-        <p>✉️ Email: <a href="mailto:example@email.com">example@email.com</a></p>
-        <p>📅 Book an Appointment: <a href="https://www.instagram.com/jsidhucuts?igsh=MW12cnFpaHM3MDN5ag==" target="_blank">Schedule Here</a></p>
+        <h2>Contact</h2> <!-- Section heading -->
+        <p>📍 Location: Kent, WA</p> <!-- Business location -->
+        <p>📅 Book an Appointment: <a href="https://www.instagram.com/jsidhucuts?igsh=MW12cnFpaHM3MDN5ag==" target="_blank">Schedule Here</a></p> <!-- Booking link -->
         <p>🔗 Follow Me: 
-            <a href="https://www.instagram.com/jsidhucuts" target="_blank">Instagram</a> 
+            <a href="https://www.instagram.com/jsidhucuts" target="_blank">Instagram</a> <!-- Instagram profile link -->
         </p>
     </section>
-
 </body>
 </html>
