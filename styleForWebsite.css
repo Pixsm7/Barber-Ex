@@ -1,54 +1,129 @@
-    body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #2a2b2f; /* Updated to match logo color */
-            color: white;
-            padding: 20px;
-        }
-        header img {
-            max-width: 110px;
-            height: auto;
-            display: block;
-            margin: 0 auto 10px;
-        }
-        section {
-            padding: 20px;
-        }
-        .contact {
-            background-color: #ddd;
-            padding: 20px;
-        }
-        .pricing {
-            background-color: #ffffff;
-            padding: 20px;
-        }
-        .pricing ul {
-            list-style: none;
-            padding: 0;
-        }
-        .pricing li {
-            padding: 5px 0;
-        }
-        .gallery {
-            background-color: #ffffff;
-            padding: 20px;
-        }
-        .gallery img {
-            width: 150px;
-            height: auto;
-            margin: 10px;
-            border-radius: 5px;
-        }
-        .business-hours {
-            background-color: #ffffff;
-            padding: 5px;
-        }
-        .business-hours ul {
-            list-style: none;
-            padding: 0;
-        }
+body {
+    font-family: 'Poppins', sans-serif; /* Sets the font */
+    text-align: center; /* Centers all text */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    background-color: #121212; /* Dark mode background */
+    color: #e0c28b; /* Gold accent color */
+}
+
+/* Header */
+header {
+    background-color: #1a1a1a; /* Dark background for the header */
+    color: #e0c28b; /* Gold text */
+    padding: 20px; /* Adds space around the content */
+    text-transform: uppercase; /* Capitalizes text */
+    font-weight: bold; /* Makes text bold */
+}
+
+header img {
+    max-width: 110px; /* Sets a max width for the logo */
+    height: auto; /* Ensures the image maintains aspect ratio */
+    display: block; /* Centers the image */
+    margin: 0 auto 10px; /* Centers the image and adds bottom margin */
+}
+
+/* About Me Section */
+.about-me {
+    background-color: #1e1e1e; /* Keeps dark theme */
+    padding: 50px; /* Adds space around the section */
+    margin-bottom: 40px; /* Adds space before the next section */
+    border-radius: 10px; /* Rounds the corners */
+    text-align: center; /* Centers text */
+}
+
+/* About Me Heading */
+.about-me h2 {
+    font-size: 28px; /* Sets font size */
+    text-transform: uppercase; /* Makes text all uppercase */
+    margin-bottom: 20px; /* Adds space below the heading */
+    border-bottom: 2px solid #e0c28b; /* Adds an underline */
+    display: inline-block; /* Keeps the underline properly positioned */
+    padding-bottom: 5px; /* Adds space between text and underline */
+}
+
+/* Profile Image */
+.about-content img {
+    width: 180px; /* Sets image size */
+    height: 180px;
+    border-radius: 50%; /* Makes image circular */
+    border: 3px solid #e0c28b; /* Adds a gold border */
+    object-fit: cover; /* Ensures the image fills the circle */
+    display: block;
+    margin: 20px auto; /* Centers the image */
+}
+
+/* Gallery Section */
+.gallery {
+    background: #1e1e1e; /* Keeps the dark theme */
+    padding: 30px; /* Adds space */
+    border-radius: 10px; /* Rounds corners */
+    text-align: center;
+}
+
+.gallery h2 {
+    text-decoration: underline; /* Underlines the heading */
+}
+
+/* Makes videos appear side by side */
+.gallery-container {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+
+/* Ensures videos are aligned properly */
+.gallery-item {
+    width: 30%; /* Sets equal width for each video */
+    display: inline-block;
+    vertical-align: top; /* Aligns items at the top */
+    margin: 10px;
+}
+
+/* Video Size */
+video {
+    width: 100%; /* Ensures videos resize properly */
+    height: auto;
+    border-radius: 10px; /* Rounds video corners */
+}
+
+/* Pricing Section */
+.pricing {
+    background-color: #121212;
+    padding: 25px;
+    color: #e0c28b;
+    border-radius: 10px;
+}
+
+/* Business Hours */
+.business-hours {
+    background-color: #1e1e1e;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+/* Contact Section */
+.contact {
+    background-color: #121212;
+    padding: 25px;
+    color: #e0c28b;
+    border-radius: 10px;
+}
+
+/* Contact Links */
+.contact a {
+    color: #e0c28b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact a:hover {
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .gallery-item {
+        width: 100%; /* Stacks videos on smaller screens */
+        display: block;
+    }
+}
