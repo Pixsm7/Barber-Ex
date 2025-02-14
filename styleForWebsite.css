@@ -23,6 +23,54 @@ header img {
     margin: 0 auto 10px; /* Centers the image and adds bottom margin */
 }
 
+/* About Me and Contact Section Side by Side */
+.about-contact-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 50px;
+}
+
+.about-me, .contact {
+    width: 45%; /* Ensures they take up equal space */
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.about-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #e0c28b;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 15px;
+}
+
+.contact h2, .about-me h2 {
+    border-bottom: 2px solid #e0c28b;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-contact-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-me, .contact {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+}
+
 /* About Me Section */
 .about-me {
     background-color: #1e1e1e; /* Keeps dark theme */
@@ -51,6 +99,26 @@ header img {
     object-fit: cover; /* Ensures the image fills the circle */
     display: block;
     margin: 20px auto; /* Centers the image */
+}
+
+/* Contact Section (Updated to match About Me styling) */
+.contact {
+    background-color: #1e1e1e;
+    padding: 50px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Contact Links */
+.contact a {
+    color: #e0c28b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact a:hover {
 }
 
 /* Gallery Section */
@@ -93,6 +161,15 @@ video {
     padding: 25px;
     color: #e0c28b;
     border-radius: 10px;
+    text-align: center;
+}
+
+/* Adjust Pricing Header Alignment */
+.pricing h2 {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    left: 15px; /* Moves the header slightly to the right */
 }
 
 /* Business Hours */
@@ -102,28 +179,9 @@ video {
     border-radius: 10px;
 }
 
-/* Contact Section */
-.contact {
-    background-color: #121212;
-    padding: 25px;
-    color: #e0c28b;
-    border-radius: 10px;
-}
-
-/* Contact Links */
-.contact a {
-    color: #e0c28b;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.contact a:hover {
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .gallery-item {
-        width: 100%; /* Stacks videos on smaller screens */
-        display: block;
-    }
+.business-hours h2 {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    left: 15px;
 }
