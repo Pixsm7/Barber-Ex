@@ -1,87 +1,98 @@
-<!DOCTYPE html> 
-<html lang="en"> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive design on mobile -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>jsidhucutz</title>
-    <link rel="stylesheet" href="styleForWebsite.css"> <!-- Links to the external CSS file -->
+    <link rel="stylesheet" href="styleForWebsite.css">
 </head>
 <body>
     <!-- Header Section -->
     <header>
-        <img src="JCutz Logo.png" alt="J Cutz Logo"> <!-- Displays the logo -->
-        <h1>Welcome to JSidhu Cuts</h1> <!-- Main heading of the website -->
-        <p>Quality cuts at an affordable price</p> <!-- Tagline -->
+        <img src="JCutz Logo.png" alt="J Cutz Logo">
+        <h1>Welcome to JSidhu Cuts</h1>
+        <p>Quality cuts at an affordable price</p>
     </header>
 
-    <!-- About Me Section -->
-    <section class="about-me">
-        <h2>About Me</h2> <!-- Section heading -->
-        <div class="about-content">
-            <img src="jaivirme.jpg" alt="jaivir"> <!-- Barber's profile image -->
-            <p>I'm a professional barber offering personalized haircuts from my home garage. 
-               I specialize in modern fades, classic cuts, and detailed beard grooming. 
-               My goal is to give my clients the confidence they deserve with precision styling. 
-               Check out my work below and book your next appointment through Instagram.</p> <!-- Short bio -->
+    <!-- About Me and Contact Section Side by Side -->
+    <section class="about-contact-wrapper">
+        <!-- About Me Section -->
+        <div class="about-me">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <img src="jaivirme.jpg" alt="jaivir" class="about-img">
+                I'm a professional barber offering personalized haircuts from my home garage. I specialize in modern fades, classic cuts, and detailed beard grooming. My goal is to give my clients the confidence they deserve with precision styling. I started this business as a side project, cutting hair from my garage while refining my craft. Over time, I realized my passion for barbering and the impact it has on people's confidence. Looking ahead, I hope to turn this into a full-scale business, opening my own shop and eventually expanding to bring high-quality, affordable haircuts to a wider community.</p>
+                <p>I started this business as a side project, cutting hair from my garage while refining my craft. Over time, I realized my passion for barbering and the impact it has on people's confidence. Looking ahead, I hope to turn this into a full-scale business, opening my own shop and eventually expanding to bring high-quality, affordable haircuts to a wider community.</p>
+            </div>
+        </div>
+        
+        <!-- Contact Section -->
+        <div class="contact">
+            <h2>Contact</h2>
+            <p class="highlight">📍 Location: Kent, WA</p>
+            <p>🔗 Follow Me: <a href="https://www.instagram.com/jsidhucuts" target="_blank">Instagram</a></p>
+                            <p class="highlight">📅 Book an Appointment: <a href="https://www.instagram.com/jsidhucuts" target="_blank">Schedule Here</a></p>
         </div>
     </section>
 
-    <!-- Gallery Section -->
+    <!-- Gallery Section with Haircut Labels -->
     <section class="gallery">
-        <h2>GALLERY</h2> <!-- Section heading -->
-        <p>Check out some of my recent haircuts!</p> <!-- Section description -->
+        <h2>GALLERY</h2>
+        <p>Check out some of my recent haircuts!</p>
 
-        <div class="gallery-container"> <!-- Container to hold all videos -->
-            <!-- Video 1 -->
-            <div class="gallery-item">
-                <video controls> <!-- Adds video controls (play, pause, volume) -->
-                    <source src="cut1.mp4" type="video/mp4"> <!-- First haircut video -->
-                </video>
-            </div>
-
-            <!-- Video 2 -->
+        <div class="gallery-container">
             <div class="gallery-item">
                 <video controls>
-                    <source src="cut2.mp4" type="video/mp4"> <!-- Second haircut video -->
+                    <source src="cut1.mp4" type="video/mp4">
                 </video>
+                <p class="cut-label">Low Taper Fade</p>
             </div>
 
-            <!-- Video 3 -->
             <div class="gallery-item">
                 <video controls>
-                    <source src="cut3.mp4" type="video/mp4"> <!-- Third haircut video -->
+                    <source src="cut2.mp4" type="video/mp4">
                 </video>
+                <p class="cut-label">Mid Fade</p>
+            </div>
+
+            <div class="gallery-item">
+                <video controls>
+                    <source src="cut3.mp4" type="video/mp4">
+                </video>
+                <p class="cut-label">Mid Taper</p>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
     <section class="pricing">
-        <h2>Pricing</h2> <!-- Section heading -->
-        <ul> <!-- Unordered list for pricing -->
-            <li>Haircut - $20</li> <!-- Price for a haircut -->
-            <li>Haircut with Beard trim/lineup - $25</li> <!-- Price for haircut + beard trim -->
+        <h2>Pricing</h2>
+        <ul>
+            <li>Haircut - $25</li>
+            <li>Haircut with Beard trim/lineup - $30</li>
         </ul>
     </section>
 
     <!-- Business Hours Section -->
     <section class="business-hours">
-        <h2>Business Hours</h2> <!-- Section heading -->
+        <h2>Business Hours</h2>
         <ul>
-            <li>Monday - Friday: 10 AM - 7 PM</li> <!-- Weekday hours -->
-            <li>Saturday: 9 AM - 5 PM</li> <!-- Saturday hours -->
-            <li>Sunday: Closed</li> <!-- Sunday closed -->
+            <li>Monday - Friday: 10 AM - 7 PM</li>
+            <li>Saturday: 9 AM - 5 PM</li>
+            <li>Sunday: Closed</li>
         </ul>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact">
-        <h2>Contact</h2> <!-- Section heading -->
-        <p>📍 Location: Kent, WA</p> <!-- Business location -->
-        <p>📅 Book an Appointment: <a href="https://www.instagram.com/jsidhucuts?igsh=MW12cnFpaHM3MDN5ag==" target="_blank">Schedule Here</a></p> <!-- Booking link -->
-        <p>🔗 Follow Me: 
-            <a href="https://www.instagram.com/jsidhucuts" target="_blank">Instagram</a> <!-- Instagram profile link -->
-        </p>
+    <!-- Credits & Team Section -->
+    <section class="team">
+        <h2>Meet the Team</h2>
+        <p>We built this website! Connect with us on LinkedIn:</p>
+        <ul>
+            <li>Karman Sohal - Website Developer & Project Manager | <a href="https://www.linkedin.com/in/karman-sohal-88b112320/" target="_blank">LinkedIn</a></li>
+            <li>Krish Juneja - Website Developer & Project Manager | <a href="https://www.linkedin.com/in/krish-juneja" target="_blank">LinkedIn</a></li>
+            <li>Christian Kinfe - Website Developer & Communication Manager | <a href="https://www.linkedin.com/in/christiankinfe/" target="_blank">LinkedIn</a></li>
+            <li>Asham Shah - Website Developer & Communication Manager | <a href="https://www.linkedin.com/in/ashampreetshah/" target="_blank">LinkedIn</a></li>
+        </ul>
     </section>
 </body>
 </html>
