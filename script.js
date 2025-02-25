@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (response.ok) {
-                messageDisplay.textContent = "✅ Booking Complete!";
+                messageDisplay.textContent = "✅ Booking successful!";
                 messageDisplay.style.color = "green";
             } else {
-                messageDisplay.textContent = "❌ Failed to Book. Please try again.";
+                messageDisplay.textContent = "❌ Failed to process booking. Please try again.";
                 messageDisplay.style.color = "red";
             }
             messageDisplay.style.display = "block";
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const name = document.getElementById("name").value;
         let phone = document.getElementById("phone").value;
-        phone = phone.replace(/^1/, ""); // Ensure no leading 1, limit to 10 digits
+        phone = phone.replace(/^1/, ""); // Remove leading 1 if present
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             delete bookedAppointments[appointmentKey];
 
-            messageDisplay.textContent = "✅ Appointment canceled successfully.";
+            messageDisplay.textContent = "✅ Booking Canceled!";
             messageDisplay.style.color = "green";
         } else {
             messageDisplay.textContent = "❌ No appointment found for this phone number.";
