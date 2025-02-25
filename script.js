@@ -2,21 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookingForm = document.getElementById("booking-form");
     const cancelForm = document.getElementById("cancel-form");
     const messageDisplay = document.getElementById("booking-message");
-    const dateInput = document.getElementById("date"); // Date picker
     const webhookUrl = "https://discord.com/api/webhooks/1343796510802051136/sWitIyQelMmFR8HlRK2JBhfb67vQFyTQwGO1t5-iX4wnTy6np-cqCbeIn3yNZi_HpB1v";
-
     let bookedAppointments = {}; // Store booked appointments
-
-    // ✅ Disable all days except Friday (5) & Saturday (6)
-    dateInput.addEventListener("input", function () {
-        const selectedDate = new Date(this.value + "T00:00:00");
-        const dayOfWeek = selectedDate.getDay(); 
-
-        if (dayOfWeek !== 5 && dayOfWeek !== 6) {
-            alert("❌ Only Fridays and Saturdays are available for booking.");
-            this.value = ""; // Reset input if an invalid day is selected
-        }
-    });
 
     function sendToDiscord(content, successMessage) {
         fetch(webhookUrl, {
@@ -27,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => {
             if (response.ok) {
                 messageDisplay.textContent = successMessage;
-                messageDisplay.style.color = successMessage.includes("Canceled") ? "red" : "green"; // Red for cancellations
+                messageDisplay.style.color = "green";
             } else {
                 messageDisplay.textContent = "❌ Failed to process request. Please try again.";
                 messageDisplay.style.color = "red";
@@ -36,11 +23,23 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => {
             console.error("Error:", error);
-            messageDisplay.textContent = "❌ An error occurred while processing.";
+            messageDisplay.textContent = "❌ An error occurred while processing the request.";
             messageDisplay.style.color = "red";
             messageDisplay.style.display = "block";
         });
     }
+
+    // ✅ Fix for Mobile Issue - Only Validate Date AFTER Selection
+    document.getElementById("date").addEventListener("change", function () {
+        const selectedDate = new Date(this.value);
+        if (isNaN(selectedDate)) return; // Prevents error when clicking without selecting
+
+        const day = selectedDate.getDay();
+        if (day !== 5 && day !== 6) {
+            alert("❌ Only Fridays and Saturdays are available for booking.");
+            this.value = ""; // Clear the invalid date selection
+        }
+    });
 
     bookingForm.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -72,10 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let existingBooking = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
         if (existingBooking) {
             const oldAppointment = bookedAppointments[existingBooking];
-            sendToDiscord(
-                `❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${oldAppointment.date}\n⏰ **Time:** ${oldAppointment.time}`,
-                "✅ Booking Updated Successfully!"
-            );
+            sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${oldAppointment.date}\n⏰ **Time:** ${oldAppointment.time}`, "✅ Booking Updated!");
             delete bookedAppointments[existingBooking];
         }
 
@@ -90,11 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             day: "numeric"
         });
 
-        sendToDiscord(
-            `📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}\n`,
-            "✅ Booking Successful!"
-        );
-
+        sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}\n`, "✅ Booking Successful!");
         bookingForm.reset();
     });
 
@@ -116,18 +108,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (appointmentKey) {
             const canceledAppointment = bookedAppointments[appointmentKey];
 
-            sendToDiscord(
-                `❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`,
-                "✅ Booking Canceled!"
-            );
-
+            sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`, "✅ Booking Canceled!");
+            
             delete bookedAppointments[appointmentKey];
         } else {
             messageDisplay.textContent = "❌ No appointment found for this phone number.";
             messageDisplay.style.color = "red";
-            messageDisplay.style.display = "block";
         }
 
+        messageDisplay.style.display = "block";
         cancelForm.reset();
     });
 
