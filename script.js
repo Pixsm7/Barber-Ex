@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cancelForm = document.getElementById("cancel-form");
     const messageDisplay = document.getElementById("booking-message");
     const webhookUrl = "https://discord.com/api/webhooks/1343796510802051136/sWitIyQelMmFR8HlRK2JBhfb67vQFyTQwGO1t5-iX4wnTy6np-cqCbeIn3yNZi_HpB1v";
-    let bookedAppointments = {}; // Store booked appointments with date_time as key
+    let bookedAppointments = {}; // Store booked appointments
 
     function sendToDiscord(content) {
         fetch(webhookUrl, {
@@ -45,10 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // ✅ Create a unique key for each appointment (date + time)
         const appointmentKey = `${date}_${time}`;
 
-        // ✅ Check if this slot is already booked
+        // ✅ Check if the time slot is already booked
         if (bookedAppointments[appointmentKey]) {
             messageDisplay.textContent = "❌ This time slot is already booked. Please select another time.";
             messageDisplay.style.color = "red";
@@ -56,29 +55,26 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // If user already has a booking, cancel the previous one before booking a new one
-        const oldKey = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
-        if (oldKey) {
-            const oldAppointment = bookedAppointments[oldKey];
+        // ✅ Check if the user already has a booking, cancel old before booking new
+        let existingBooking = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
+        if (existingBooking) {
+            const oldAppointment = bookedAppointments[existingBooking];
             sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${oldAppointment.date}\n⏰ **Time:** ${oldAppointment.time}`);
-            delete bookedAppointments[oldKey]; // Free up the old slot
+            delete bookedAppointments[existingBooking];
         }
 
-        // ✅ Store the new appointment with date + time as the key
+        // ✅ Store new appointment
         bookedAppointments[appointmentKey] = { phone, name, date, time };
 
-        // ✅ Fix the one-day shift issue by ensuring the correct timezone is used
-        const dateObj = new Date(date + "T00:00:00-08:00"); // Forces Pacific Time (PST/PDT)
-        const formattedDate = dateObj.toLocaleDateString("en-US", { 
-            weekday: "long", 
-            year: "numeric", 
-            month: "long", 
-            day: "numeric" 
+        const dateObj = new Date(`${date}T00:00:00`);
+        const formattedDate = dateObj.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
         });
 
-        // Send booking confirmation to Discord
-        const bookingDetails = `📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}\n\nTo cancel, enter your phone number below.`;
-        sendToDiscord(bookingDetails);
+        sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}\n\nTo cancel, enter your phone number below.`);
         bookingForm.reset();
     });
 
@@ -94,43 +90,30 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // ✅ Search for the appointment using phone number
-        const appointmentKey = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
+        // ✅ Find the booking by phone number
+        let appointmentKey = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
 
         if (appointmentKey) {
             const canceledAppointment = bookedAppointments[appointmentKey];
+
             sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`);
-            delete bookedAppointments[appointmentKey]; // Remove the appointment
+
+            delete bookedAppointments[appointmentKey];
+
             messageDisplay.textContent = "✅ Appointment canceled successfully.";
             messageDisplay.style.color = "green";
         } else {
             messageDisplay.textContent = "❌ No appointment found for this phone number.";
             messageDisplay.style.color = "red";
         }
+
         messageDisplay.style.display = "block";
         cancelForm.reset();
     });
 
-    // ✅ Function to clear all bookings (connected to Discord bot command)
     function clearAllBookings() {
-        console.log("Before clearing:", JSON.stringify(bookedAppointments, null, 2)); // Debug log
-        bookedAppointments = {}; // Ensures memory is cleared
-        console.log("After clearing:", JSON.stringify(bookedAppointments, null, 2)); // Debug log
+        console.log("Before clearing:", JSON.stringify(bookedAppointments, null, 2));
+        bookedAppointments = Object.create(null);
+        console.log("After clearing:", JSON.stringify(bookedAppointments, null, 2));
     }
-
-    // ✅ Function to listen for cleared bookings from Discord bot
-    function listenForClearedBookings() {
-        fetch("https://discord.com/api/webhooks/1343796510802051136/sWitIyQelMmFR8HlRK2JBhfb67vQFyTQwGO1t5-iX4wnTy6np-cqCbeIn3yNZi_HpB1v")
-        .then(response => response.json())
-        .then(data => {
-            if (data.content.includes("🔄 Bookings have been cleared in the system!")) {
-                bookedAppointments = {}; // ✅ Clears the website's stored bookings
-                console.log("✅ All bookings have been cleared on the website.");
-            }
-        })
-        .catch(error => console.error("Error checking cleared bookings:", error));
-    }
-
-    // Run this function when the page loads
-    listenForClearedBookings();
 });
