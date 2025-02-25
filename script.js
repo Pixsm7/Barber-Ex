@@ -13,17 +13,17 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (response.ok) {
-                messageDisplay.textContent = "✅ Request successfully processed!";
+                messageDisplay.textContent = "✅ Booking Complete!";
                 messageDisplay.style.color = "green";
             } else {
-                messageDisplay.textContent = "❌ Failed to process request. Please try again.";
+                messageDisplay.textContent = "❌ Failed to Book. Please try again.";
                 messageDisplay.style.color = "red";
             }
             messageDisplay.style.display = "block";
         })
         .catch(error => {
             console.error("Error:", error);
-            messageDisplay.textContent = "❌ An error occurred while sending the request.";
+            messageDisplay.textContent = "❌ An error occurred while booking.";
             messageDisplay.style.color = "red";
             messageDisplay.style.display = "block";
         });
