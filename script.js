@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
             day: "numeric"
         });
 
-        sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}\n\nTo cancel, enter your phone number below.`);
+        sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}\n`);
         bookingForm.reset();
     });
 
