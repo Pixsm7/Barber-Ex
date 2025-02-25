@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment - JSidhu Cuts</title>
+    <link rel="stylesheet" href="styleForWebsite.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <img src="JCutz Logo.png" alt="J Cutz Logo">
+        <h1>Book an Appointment</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="booking.html">Book an Appointment</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="booking-section">
+        <h2>Schedule Your Haircut</h2>
+        <p>Fill in the details below to book your appointment.</p>
+        <form id="booking-form">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required>
+
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Select Time:</label>
+            <select id="time" name="time" required>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="1:30 PM">1:30 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="2:30 PM">2:30 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="3:30 PM">3:30 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="4:30 PM">4:30 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+                <option value="6:00 PM">6:00 PM</option>
+                <option value="6:30 PM">6:30 PM</option>
+                <option value="7:00 PM">7:00 PM</option>
+            </select>
+
+            <button type="submit">Book Appointment</button>
+        </form>
+
+        <h2>Cancel an Appointment</h2>
+        <p>Enter your phone number to cancel your existing appointment.</p>
+        <form id="cancel-form">
+            <label for="cancel-phone">Phone Number:</label>
+            <input type="tel" id="cancel-phone" name="cancel-phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required>
+            <button type="submit">Cancel Appointment</button>
+        </form>
+    </section>
+
+    <p id="booking-message" style="display: none; font-weight: bold;"></p>
+
+    <footer>
+        <p>&copy; 2025 JSidhu Cuts. All rights reserved.</p>
+    </footer>
+</body>
+</html>
