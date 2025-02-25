@@ -189,18 +189,42 @@ video {
 /* Homepage Navigation */
 .nav-home {
     text-align: center;
-    padding-right: 25px;
+    padding-right: 40px;
 
 }
 
 /* Gallery Page Navigation */
 .nav-gallery {
     text-align: center;
-    padding-right: 35px;
+    padding-right: 50px;
 }
 
 /* Booking Page Navigation */
 .nav-booking {
     text-align: center;
-    padding-right: 40px;
+    padding-right: 50px;
+}
+/* Change link color */
+nav a {
+    color: #FFFFFF; /* Change this to any color you want */
+    text-decoration: underline; /* Optional: Removes underline */
+}
+
+/* Change link color on hover */
+nav a:hover {
+    color: #FFFFFF; /* Change this to any hover color you want */
+}
+/* Move section to the left and push it down */
+.booking-section {
+    font-size: 25px;
+    margin-left: -15px; /* Adjust to move left (-) or right (+) */
+    margin-top: 50px;  /* Adjust to move down (+) or up (-) */
+}
+
+.gallery a{
+    color: #FFFFFF;
+}
+
+.team a{
+    color: #FFFFFF;
 }
