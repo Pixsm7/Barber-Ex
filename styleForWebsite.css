@@ -185,3 +185,22 @@ video {
     position: relative;
     left: 15px;
 }
+
+/* Homepage Navigation */
+.nav-home {
+    text-align: center;
+    padding-right: 25px;
+
+}
+
+/* Gallery Page Navigation */
+.nav-gallery {
+    text-align: center;
+    padding-right: 35px;
+}
+
+/* Booking Page Navigation */
+.nav-booking {
+    text-align: center;
+    padding-right: 40px;
+}
