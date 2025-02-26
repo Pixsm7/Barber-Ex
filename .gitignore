@@ -1,2 +1,7 @@
 node_modules/
 .env
+server.js
+bot.js
+bookings.json
+package.json
+.env  # If using environment variables
