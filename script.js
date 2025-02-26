@@ -7,43 +7,39 @@ document.addEventListener("DOMContentLoaded", function () {
     let messageRecords = {}; // Store message IDs
 
     async function sendToDiscord(content, phone, update = false) {
-    const formattedContent = `\n\n\n${content}`; // Add two new lines before the message for spacing
+        const formattedContent = `\n\n${content}`; // Add two new lines before the message for spacing
 
-    if (update && messageRecords[phone]) {
-        const messageId = messageRecords[phone];
-        const editUrl = `${webhookUrl}/messages/${messageId}`;
+        if (update && messageRecords[phone]) {
+            const messageId = messageRecords[phone];
+            const editUrl = `${webhookUrl}/messages/${messageId}`;
 
-        // Edit existing message
-        await fetch(editUrl, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: formattedContent }) // Use formattedContent
-        })
-        .catch(error => console.error("Error editing message:", error));
-    } else {
-        // Send new message
-        await fetch(webhookUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: formattedContent }) // Use formattedContent
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.id) {
-                messageRecords[phone] = data.id; // Store message ID for future updates
-            }
-        })
-        .catch(error => console.error("Error sending message:", error));
+            await fetch(editUrl, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: formattedContent })
+            }).catch(error => console.error("Error editing message:", error));
+        } else {
+            await fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: formattedContent })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    messageRecords[phone] = data.id; // Store message ID for future updates
+                }
+            })
+            .catch(error => console.error("Error sending message:", error));
+        }
     }
-}
-
 
     bookingForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const name = document.getElementById("name").value;
         let phone = document.getElementById("phone").value;
-        phone = phone.replace(/^1/, ""); // Ensure no leading 1, limit to 10 digits
+        phone = phone.replace(/^1/, ""); 
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
@@ -54,9 +50,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        const selectedDate = new Date(date + "T00:00:00");
+        const dayOfWeek = selectedDate.getDay(); 
+
+        if (dayOfWeek !== 5 && dayOfWeek !== 6) {
+            messageDisplay.textContent = "❌ Appointments can only be booked on Fridays and Saturdays.";
+            messageDisplay.style.color = "red";
+            messageDisplay.style.display = "block";
+            return;
+        }
+
         const appointmentKey = `${date}_${time}`;
 
-        // ✅ Check if the time slot is already booked
         if (bookedAppointments[appointmentKey]) {
             messageDisplay.textContent = "❌ This time slot is already booked. Please select another time.";
             messageDisplay.style.color = "red";
@@ -64,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // ✅ Check if the user already has a booking, cancel old before booking new
         let existingBooking = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
         if (existingBooking) {
             const oldAppointment = bookedAppointments[existingBooking];
@@ -72,11 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
             delete bookedAppointments[existingBooking];
         }
 
-        // ✅ Store new appointment
         bookedAppointments[appointmentKey] = { phone, name, date, time };
 
-        const dateObj = new Date(`${date}T00:00:00`);
-        const formattedDate = dateObj.toLocaleDateString("en-US", {
+        const formattedDate = selectedDate.toLocaleDateString("en-US", {
             weekday: "long",
             year: "numeric",
             month: "long",
@@ -104,7 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // ✅ Find the booking by phone number
         let appointmentKey = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
 
         if (appointmentKey) {
@@ -126,9 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function clearAllBookings() {
-    console.log("Before clearing:", JSON.stringify(bookedAppointments, null, 2)); // Debugging log
-    bookedAppointments = {}; // Reset stored appointments
-    console.log("After clearing:", JSON.stringify(bookedAppointments, null, 2)); // Debugging log
-}
-
+        console.log("Before clearing:", JSON.stringify(bookedAppointments, null, 2));
+        bookedAppointments = {}; 
+        console.log("After clearing:", JSON.stringify(bookedAppointments, null, 2));
+    }
 });
