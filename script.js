@@ -102,7 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
     cancelForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
+        console.log("🚀 Cancel button clicked!"); // Debugging log
+
         const phone = document.getElementById("cancel-phone").value;
+
+        console.log("📞 Phone entered:", phone); // Debugging log
 
         if (!phone || phone.length !== 10) {
             messageDisplay.textContent = "⚠️ Please enter a valid 10-digit phone number.";
@@ -116,12 +120,37 @@ document.addEventListener("DOMContentLoaded", function () {
         if (appointmentKey) {
             const canceledAppointment = bookedAppointments[appointmentKey];
 
-            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`);
+            console.log("🛑 Sending cancellation request to server...");
 
-            delete bookedAppointments[appointmentKey];
+            try {
+                // ✅ Send request to backend to delete from database
+                const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/cancel", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        phone: phone,
+                        date: canceledAppointment.date,
+                        time: canceledAppointment.time
+                    }),
+                });
 
-            messageDisplay.textContent = "✅ Booking Canceled!";
-            messageDisplay.style.color = "green";
+                const result = await response.json();
+                console.log("📥 Server Response:", result);
+
+                if (response.ok) {
+                    delete bookedAppointments[appointmentKey]; // ✅ Remove from frontend memory
+                    messageDisplay.textContent = "✅ Booking Canceled!";
+                    messageDisplay.style.color = "green";
+                    await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`);
+                } else {
+                    messageDisplay.textContent = `❌ ${result.error || "Failed to cancel appointment."}`;
+                    messageDisplay.style.color = "red";
+                }
+            } catch (error) {
+                console.error("❌ Error sending cancellation request:", error);
+                messageDisplay.textContent = "❌ An error occurred while canceling.";
+                messageDisplay.style.color = "red";
+            }
         } else {
             messageDisplay.textContent = "❌ No appointment found for this phone number.";
             messageDisplay.style.color = "red";
