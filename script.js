@@ -69,6 +69,24 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDisplay.style.color = "green";
         messageDisplay.style.display = "block";
 
+        // ✅ Send booking data to the bot via webhook
+        async function sendBookingToBot(name, phone, date, time) {
+            try {
+                await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/", {  // Replace with your bot API endpoint
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, phone, date, time })
+                });
+                console.log("✅ Booking sent to bot!");
+            } catch (error) {
+                console.error("❌ Failed to send booking to bot:", error);
+            }
+        }
+
+// ✅ Call the function when booking is made
+sendBookingToBot(name, phone, date, time);
+
+        
         bookingForm.reset();
     });
 
