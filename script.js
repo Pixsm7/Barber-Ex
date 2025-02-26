@@ -3,35 +3,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const cancelForm = document.getElementById("cancel-form");
     const messageDisplay = document.getElementById("booking-message");
     const webhookUrl = "https://discord.com/api/webhooks/1343796510802051136/sWitIyQelMmFR8HlRK2JBhfb67vQFyTQwGO1t5-iX4wnTy6np-cqCbeIn3yNZi_HpB1v";
-    let bookedAppointments = {}; // Store booked appointments
-    let messageRecords = {}; // Store message IDs
+    
+    let bookedAppointments = {}; // Stores booked slots
 
-    async function sendToDiscord(content, phone, update = false) {
-        const formattedContent = `\n\n${content}`; // Add two new lines before the message for spacing
-
-        if (update && messageRecords[phone]) {
-            const messageId = messageRecords[phone];
-            const editUrl = `${webhookUrl}/messages/${messageId}`;
-
-            await fetch(editUrl, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: formattedContent })
-            }).catch(error => console.error("Error editing message:", error));
-        } else {
-            await fetch(webhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: formattedContent })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.id) {
-                    messageRecords[phone] = data.id; // Store message ID for future updates
-                }
-            })
-            .catch(error => console.error("Error sending message:", error));
-        }
+    async function sendToDiscord(content) {
+        const formattedContent = `\n\n${content}`;
+        await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content: formattedContent })
+        }).catch(error => console.error("Error sending message:", error));
     }
 
     bookingForm.addEventListener("submit", async function (event) {
@@ -39,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const name = document.getElementById("name").value;
         let phone = document.getElementById("phone").value;
-        phone = phone.replace(/^1/, ""); 
+        phone = phone.replace(/^1/, "");
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
@@ -51,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const selectedDate = new Date(date + "T00:00:00");
-        const dayOfWeek = selectedDate.getDay(); 
+        const dayOfWeek = selectedDate.getDay();
 
         if (dayOfWeek !== 5 && dayOfWeek !== 6) {
             messageDisplay.textContent = "❌ Appointments can only be booked on Fridays and Saturdays.";
@@ -62,20 +43,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const appointmentKey = `${date}_${time}`;
 
+        // ✅ **CHECK FOR EXISTING BOOKING**
         if (bookedAppointments[appointmentKey]) {
             messageDisplay.textContent = "❌ This time slot is already booked. Please select another time.";
             messageDisplay.style.color = "red";
             messageDisplay.style.display = "block";
-            return;
+            
+            await sendToDiscord(`❌ **Failed Booking Attempt!**\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}\n⚠️ Time slot is already taken!`);
+            return; // **STOP HERE: Do not proceed with booking**
         }
 
-        let existingBooking = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
-        if (existingBooking) {
-            const oldAppointment = bookedAppointments[existingBooking];
-            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${oldAppointment.date}\n⏰ **Time:** ${oldAppointment.time}`, phone, true);
-            delete bookedAppointments[existingBooking];
-        }
-
+        // ✅ **STORE NEW BOOKING**
         bookedAppointments[appointmentKey] = { phone, name, date, time };
 
         const formattedDate = selectedDate.toLocaleDateString("en-US", {
@@ -85,8 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
             day: "numeric"
         });
 
-        await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}`, phone, existingBooking ? true : false);
-        
+        await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}`);
+
         messageDisplay.textContent = "✅ Booking successful!";
         messageDisplay.style.color = "green";
         messageDisplay.style.display = "block";
@@ -111,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (appointmentKey) {
             const canceledAppointment = bookedAppointments[appointmentKey];
 
-            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`, phone, true);
+            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`);
 
             delete bookedAppointments[appointmentKey];
 
