@@ -71,41 +71,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ✅ Send booking data to the bot via webhook
         async function sendBookingToBot(name, phone, date, time) {
-    try {
-        console.log("📤 Sending data:", { name, phone, date, time });
+            try {
+                console.log("📤 Sending data:", { name, phone, date, time });
 
-        const response = await fetch("/book", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, phone, date, time }),
-        });
+                const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/book", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, phone, date, time }),
+                });
 
-        const data = await response.json();
-        console.log("📥 Server response:", data);
+                const data = await response.json();
+                console.log("📥 Server response:", data);
 
-        if (!response.ok) {
-            // ✅ If booking fails (e.g., time slot is taken), show error message on website
-            messageDisplay.textContent = `❌ ${data.error || "Booking failed. Please try again."}`;
-            messageDisplay.style.color = "red";
-            messageDisplay.style.display = "block";
-            return; // 🚀 STOP HERE – Don't send Discord message!
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${data.error}`);
+                }
+
+                console.log("✅ Booking sent to bot!");
+            } catch (error) {
+                console.error("❌ Failed to send booking to bot:", error);
+            }
         }
-
-        console.log("✅ Booking successfully added!");
-
-        // ✅ Now send the Discord message ONLY IF the booking was successful
-        await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}`);
-
-    } catch (error) {
-        console.error("❌ Failed to send booking to bot:", error);
-
-        // ✅ Show error message on the website
-        messageDisplay.textContent = "❌ An error occurred while booking.";
-        messageDisplay.style.color = "red";
-        messageDisplay.style.display = "block";
-    }
-}
-
 
         // ✅ Call the function when booking is made
         sendBookingToBot(name, phone, date, time);
