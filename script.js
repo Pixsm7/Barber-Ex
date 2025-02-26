@@ -71,33 +71,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ✅ Send booking data to the bot via webhook
         async function sendBookingToBot(name, phone, date, time) {
-    try {
-        console.log("📤 Sending data:", { name, phone, date, time });
+            try {
+                console.log("📤 Sending data:", { name, phone, date, time });
 
-        const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/book", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, phone, date, time }),
-        });
+                const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/book", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, phone, date, time }),
+                });
 
-        const data = await response.json();
-        console.log("📥 Server response:", data);
+                const data = await response.json();
+                console.log("📥 Server response:", data);
 
-        if (!response.ok) {
-            throw new Error(`Server responded with ${response.status}: ${data.error}`);
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${data.error}`);
+                }
+
+                console.log("✅ Booking sent to bot!");
+            } catch (error) {
+                console.error("❌ Failed to send booking to bot:", error);
+            }
         }
 
-        console.log("✅ Booking sent to bot!");
-    } catch (error) {
-        console.error("❌ Failed to send booking to bot:", error);
-    }
-}
+        // ✅ Call the function when booking is made
+        sendBookingToBot(name, phone, date, time);
 
-
-// ✅ Call the function when booking is made
-sendBookingToBot(name, phone, date, time);
-
-        
         bookingForm.reset();
     });
 
@@ -133,9 +131,21 @@ sendBookingToBot(name, phone, date, time);
         cancelForm.reset();
     });
 
-    function clearAllBookings() {
-        console.log("Before clearing:", JSON.stringify(bookedAppointments, null, 2));
-        bookedAppointments = {}; 
-        console.log("After clearing:", JSON.stringify(bookedAppointments, null, 2));
+    // ✅ **CLEAR ALL BOOKINGS**
+    async function clearBookings() {
+        try {
+            const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/clear-bookings", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+            });
+
+            const result = await response.json();
+            console.log("🗑️ Server Response:", result.message); // Log success message
+        } catch (error) {
+            console.error("❌ Error clearing bookings:", error);
+        }
     }
+
+    // ✅ Attach clearBookings function to a button if needed
+    document.getElementById("clear-bookings-btn")?.addEventListener("click", clearBookings);
 });
