@@ -18,11 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const name = document.getElementById("name").value;
         let phone = document.getElementById("phone").value.replace(/^1/, "");
-        const date = document.getElementById("date").value;
-        const time = document.getElementById("time").value;
 
-        if (!name || !phone || !date || !time || phone.length !== 10) {
-            messageDisplay.textContent = "⚠️ Please enter a valid name, 10-digit phone number, date, and time.";
+        if (!name || !phone || phone.length !== 10) {
+            messageDisplay.textContent = "⚠️ Please enter a valid name and 10-digit phone number.";
             messageDisplay.style.color = "red";
             messageDisplay.style.display = "block";
             return;
@@ -32,13 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch(`${backendUrl}/book`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, phone, date, time })
+                body: JSON.stringify({ name, phone })
             });
             const data = await response.json();
 
             if (!response.ok) throw new Error(data.error);
 
-            await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}`);
+            await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}`);
             messageDisplay.textContent = "✅ Booking successful!";
             messageDisplay.style.color = "green";
         } catch (error) {
@@ -53,28 +51,26 @@ document.addEventListener("DOMContentLoaded", function () {
     cancelForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         const phone = document.getElementById("cancel-phone").value;
-        const date = document.getElementById("date").value;
-        const time = document.getElementById("time").value;
 
-        if (!phone || phone.length !== 10 || !date || !time) {
-            messageDisplay.textContent = "⚠️ Please enter a valid phone number, date, and time.";
+        if (!phone || phone.length !== 10) {
+            messageDisplay.textContent = "⚠️ Please enter a valid 10-digit phone number.";
             messageDisplay.style.color = "red";
             messageDisplay.style.display = "block";
             return;
         }
 
         try {
-            console.log("🚀 Sending cancellation request:", { phone, date, time });
+            console.log("🚀 Sending cancellation request:", { phone });
             const response = await fetch(`${backendUrl}/cancel`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone, date, time })
+                body: JSON.stringify({ phone })
             });
             const result = await response.json();
 
             if (!response.ok) throw new Error(result.error);
 
-            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}`);
+            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}`);
             messageDisplay.textContent = "✅ Booking Canceled!";
             messageDisplay.style.color = "green";
         } catch (error) {
