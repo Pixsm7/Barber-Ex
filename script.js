@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch(`${backendUrl}/book`, {
+            const response = await fetch(${backendUrl}/book, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, phone, date, time })
@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) throw new Error(data.error);
 
+            await sendToDiscord(📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time});
             messageDisplay.textContent = "✅ Booking successful!";
             messageDisplay.style.color = "green";
         } catch (error) {
@@ -62,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             console.log("🚀 Sending cancellation request:", { phone }); // Debugging log
-            const response = await fetch(`${backendUrl}/cancel`, {
+            const response = await fetch(${backendUrl}/cancel, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ phone })
@@ -72,11 +73,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) throw new Error(result.error);
 
+            await sendToDiscord(❌ **Appointment Canceled**\n📞 **Phone:** ${phone});
             messageDisplay.textContent = "✅ Booking Canceled!";
             messageDisplay.style.color = "green";
         } catch (error) {
             console.error("❌ Cancellation error:", error);
-            messageDisplay.textContent = `❌ ${error.message}`;
+            messageDisplay.textContent = ❌ ${error.message};
             messageDisplay.style.color = "red";
         }
         messageDisplay.style.display = "block";
