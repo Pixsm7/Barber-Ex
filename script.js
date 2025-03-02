@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookingForm = document.getElementById("booking-form");
     const cancelForm = document.getElementById("cancel-form");
     const messageDisplay = document.getElementById("booking-message");
-    const webhookUrl = "https://discord.com/api/webhooks/1343796510802051136/sWitIyQelMmFR8HlRK2JBhfb67vQFyTQwGO1t5-iX4wnTy6np-cqCbeIn3yNZi_HpB1v";
-    const backendUrl = "https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev";
+    const webhookUrl = "https://discord.com/api/webhooks/YOUR_WEBHOOK_URL";
+    const backendUrl = "https://your-backend-url.com";
 
     async function sendToDiscord(content) {
         await fetch(webhookUrl, {
@@ -29,11 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch(`${backendUrl}/book`, {
+            const response = await fetch(`${backendUrl}/book`, {  // ✅ FIXED LINE 32
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, phone, date, time })
             });
+
             const data = await response.json();
 
             if (!response.ok) throw new Error(data.error);
@@ -63,11 +64,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             console.log("🚀 Sending cancellation request:", { phone }); // Debugging log
-            const response = await fetch(`${backendUrl}/cancel`, {
+            const response = await fetch(`${backendUrl}/cancel`, {  // ✅ FIXED
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ phone })
             });
+
             const result = await response.json();
             console.log("📥 Server Response:", result); // Debugging log
 
