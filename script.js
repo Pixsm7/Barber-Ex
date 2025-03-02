@@ -3,15 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const cancelForm = document.getElementById("cancel-form");
     const messageDisplay = document.getElementById("booking-message");
     const webhookUrl = "https://discord.com/api/webhooks/1343796510802051136/sWitIyQelMmFR8HlRK2JBhfb67vQFyTQwGO1t5-iX4wnTy6np-cqCbeIn3yNZi_HpB1v";
+    const backendUrl = "https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev";
     
-    let bookedAppointments = {}; // Stores booked slots
-
     async function sendToDiscord(content) {
-        const formattedContent = `\n\n${content}`;
         await fetch(webhookUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: formattedContent })
+            body: JSON.stringify({ content })
         }).catch(error => console.error("Error sending message:", error));
     }
 
@@ -19,8 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
 
         const name = document.getElementById("name").value;
-        let phone = document.getElementById("phone").value;
-        phone = phone.replace(/^1/, "");
+        let phone = document.getElementById("phone").value.replace(/^1/, "");
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
@@ -31,82 +28,31 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const selectedDate = new Date(date + "T00:00:00");
-        const dayOfWeek = selectedDate.getDay();
+        try {
+            const response = await fetch(`${backendUrl}/book`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, phone, date, time })
+            });
+            const data = await response.json();
 
-        if (dayOfWeek !== 5 && dayOfWeek !== 6) {
-            messageDisplay.textContent = "❌ Appointments can only be booked on Fridays and Saturdays.";
+            if (!response.ok) throw new Error(data.error);
+
+            await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}`);
+            messageDisplay.textContent = "✅ Booking successful!";
+            messageDisplay.style.color = "green";
+        } catch (error) {
+            console.error("❌ Booking error:", error);
+            messageDisplay.textContent = "❌ Booking failed.";
             messageDisplay.style.color = "red";
-            messageDisplay.style.display = "block";
-            return;
         }
-
-        const appointmentKey = `${date}_${time}`;
-
-        // ✅ **CHECK FOR EXISTING BOOKING**
-        if (bookedAppointments[appointmentKey]) {
-            messageDisplay.textContent = "❌ This time slot is already booked. Please select another time.";
-            messageDisplay.style.color = "red";
-            messageDisplay.style.display = "block";
-            
-            await sendToDiscord(`❌ **Failed Booking Attempt!**\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}\n⚠️ Time slot is already taken!`);
-            return; // **STOP HERE: Do not proceed with booking**
-        }
-
-        // ✅ **STORE NEW BOOKING**
-        bookedAppointments[appointmentKey] = { phone, name, date, time };
-
-        const formattedDate = selectedDate.toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-
-        await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${formattedDate}\n⏰ **Time:** ${time}`);
-
-        messageDisplay.textContent = "✅ Booking successful!";
-        messageDisplay.style.color = "green";
         messageDisplay.style.display = "block";
-
-        // ✅ Send booking data to the bot via webhook
-        async function sendBookingToBot(name, phone, date, time) {
-            try {
-                console.log("📤 Sending data:", { name, phone, date, time });
-
-                const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/book", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name, phone, date, time }),
-                });
-
-                const data = await response.json();
-                console.log("📥 Server response:", data);
-
-                if (!response.ok) {
-                    throw new Error(`Server responded with ${response.status}: ${data.error}`);
-                }
-
-                console.log("✅ Booking sent to bot!");
-            } catch (error) {
-                console.error("❌ Failed to send booking to bot:", error);
-            }
-        }
-
-        // ✅ Call the function when booking is made
-        sendBookingToBot(name, phone, date, time);
-
         bookingForm.reset();
     });
 
     cancelForm.addEventListener("submit", async function (event) {
         event.preventDefault();
-
-        console.log("🚀 Cancel button clicked!"); // Debugging log
-
         const phone = document.getElementById("cancel-phone").value;
-
-        console.log("📞 Phone entered:", phone); // Debugging log
 
         if (!phone || phone.length !== 10) {
             messageDisplay.textContent = "⚠️ Please enter a valid 10-digit phone number.";
@@ -115,66 +61,25 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        let appointmentKey = Object.keys(bookedAppointments).find(key => bookedAppointments[key].phone === phone);
+        try {
+            const response = await fetch(`${backendUrl}/cancel`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone })
+            });
+            const result = await response.json();
 
-        if (appointmentKey) {
-            const canceledAppointment = bookedAppointments[appointmentKey];
+            if (!response.ok) throw new Error(result.error);
 
-            console.log("🛑 Sending cancellation request to server...");
-
-            try {
-                // ✅ Send request to backend to delete from database
-                const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/cancel", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        phone: phone,
-                        date: canceledAppointment.date,
-                        time: canceledAppointment.time
-                    }),
-                });
-
-                const result = await response.json();
-                console.log("📥 Server Response:", result);
-
-                if (response.ok) {
-                    delete bookedAppointments[appointmentKey]; // ✅ Remove from frontend memory
-                    messageDisplay.textContent = "✅ Booking Canceled!";
-                    messageDisplay.style.color = "green";
-                    await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${canceledAppointment.date}\n⏰ **Time:** ${canceledAppointment.time}`);
-                } else {
-                    messageDisplay.textContent = `❌ ${result.error || "Failed to cancel appointment."}`;
-                    messageDisplay.style.color = "red";
-                }
-            } catch (error) {
-                console.error("❌ Error sending cancellation request:", error);
-                messageDisplay.textContent = "❌ An error occurred while canceling.";
-                messageDisplay.style.color = "red";
-            }
-        } else {
-            messageDisplay.textContent = "❌ No appointment found for this phone number.";
+            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}`);
+            messageDisplay.textContent = "✅ Booking Canceled!";
+            messageDisplay.style.color = "green";
+        } catch (error) {
+            console.error("❌ Cancellation error:", error);
+            messageDisplay.textContent = "❌ Failed to cancel appointment.";
             messageDisplay.style.color = "red";
         }
-
         messageDisplay.style.display = "block";
         cancelForm.reset();
     });
-
-    // ✅ **CLEAR ALL BOOKINGS**
-    async function clearBookings() {
-        try {
-            const response = await fetch("https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev/clear-bookings", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            });
-
-            const result = await response.json();
-            console.log("🗑️ Server Response:", result.message); // Log success message
-        } catch (error) {
-            console.error("❌ Error clearing bookings:", error);
-        }
-    }
-
-    // ✅ Attach clearBookings function to a button if needed
-    document.getElementById("clear-bookings-btn")?.addEventListener("click", clearBookings);
 });
