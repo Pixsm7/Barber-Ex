@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) throw new Error(data.error);
 
-            await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}`);
             messageDisplay.textContent = "✅ Booking successful!";
             messageDisplay.style.color = "green";
         } catch (error) {
@@ -73,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) throw new Error(result.error);
 
-            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}`);
             messageDisplay.textContent = "✅ Booking Canceled!";
             messageDisplay.style.color = "green";
         } catch (error) {
