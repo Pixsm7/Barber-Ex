@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookingForm = document.getElementById("booking-form");
     const cancelForm = document.getElementById("cancel-form");
     const messageDisplay = document.getElementById("booking-message");
-    const backendUrl = "const backendUrl = "http://3.133.122.92:3000";"
+    const backendUrl = "http://3.133.122.92:3000";"
 
     bookingForm.addEventListener("submit", async function (event) {
         event.preventDefault();
