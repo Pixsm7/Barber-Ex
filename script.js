@@ -53,30 +53,33 @@ document.addEventListener("DOMContentLoaded", function () {
     cancelForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         const phone = document.getElementById("cancel-phone").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
 
-        if (!phone || phone.length !== 10) {
-            messageDisplay.textContent = "⚠️ Please enter a valid 10-digit phone number.";
+        if (!phone || phone.length !== 10 || !date || !time) {
+            messageDisplay.textContent = "⚠️ Please enter a valid phone number, date, and time.";
             messageDisplay.style.color = "red";
             messageDisplay.style.display = "block";
             return;
         }
 
         try {
+            console.log("🚀 Sending cancellation request:", { phone, date, time });
             const response = await fetch(`${backendUrl}/cancel`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone })
+                body: JSON.stringify({ phone, date, time })
             });
             const result = await response.json();
 
             if (!response.ok) throw new Error(result.error);
 
-            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}`);
+            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}`);
             messageDisplay.textContent = "✅ Booking Canceled!";
             messageDisplay.style.color = "green";
         } catch (error) {
             console.error("❌ Cancellation error:", error);
-            messageDisplay.textContent = "❌ Failed to cancel appointment.";
+            messageDisplay.textContent = `❌ ${error.message}`;
             messageDisplay.style.color = "red";
         }
         messageDisplay.style.display = "block";
