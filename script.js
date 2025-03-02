@@ -61,11 +61,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             console.log("🚀 Sending cancellation request:", { phone });
-            const response = await fetch(`${backendUrl}/cancel`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone })
-            });
+            const response = await fetch(`${backendUrl}/book`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, phone, date, time })  // ✅ Now includes date and time
+});
+
             const result = await response.json();
 
             if (!response.ok) throw new Error(result.error);
