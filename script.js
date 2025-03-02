@@ -4,14 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const messageDisplay = document.getElementById("booking-message");
     const backendUrl = "https://3bc42540-1f0c-460e-a34e-a2fe6031288e-00-20d2v8ng4djjh.riker.replit.dev";
 
-    async function sendToDiscord(content) {
-        await fetch(`${backendUrl}/send-message`, {  // ✅ Uses the backend
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content })
-        }).catch(error => console.error("❌ Error sending message:", error));
-    }
-
     bookingForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -38,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) throw new Error(data.error);
 
-            await sendToDiscord(`📅 **New Appointment Booked!**\n👤 **Name:** ${name}\n📞 **Phone:** ${phone}\n📆 **Date:** ${date}\n⏰ **Time:** ${time}`);
             messageDisplay.textContent = "✅ Booking successful!";
             messageDisplay.style.color = "green";
         } catch (error) {
@@ -74,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) throw new Error(result.error);
 
-            await sendToDiscord(`❌ **Appointment Canceled**\n📞 **Phone:** ${phone}`);
             messageDisplay.textContent = "✅ Booking Canceled!";
             messageDisplay.style.color = "green";
         } catch (error) {
