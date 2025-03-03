@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookingForm = document.getElementById("booking-form");
     const cancelForm = document.getElementById("cancel-form");
     const messageDisplay = document.getElementById("booking-message");
-    const backendUrl = "http://3.133.122.92:3000";
+    const backendUrl = "https://e561fa8a-28d5-4b2c-a3c9-51f6a513160b-00-80t02wosj4ww.riker.replit.dev";
+
 
     bookingForm.addEventListener("submit", async function (event) {
         event.preventDefault();
